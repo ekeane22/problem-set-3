@@ -38,13 +38,24 @@ def calculate_metrics(model_pred_df, genre_list, genre_true_counts, genre_tp_cou
 
     '''
 
-tp_genre = 
-true_genre = 
-fp_gere
+
+    true = [genre_true_counts[genre] for genre in genre_list]
+    tp1 = [genre_tp_counts[genre] for genre in genre_list]
+    fp1 = [genre_fp_counts[genre] for genre in genre_list]
+    fn1 = [true[genre_list.index(genre)] - genre_tp_counts[genre] for genre in genre_list]
+
+    true_mic = sum(true)
+    tp_mic = sum(tp1)
+    fp_mic = sum(fp1)
+    fn_mic = sum(fn1)
 
 
-
-
+    micro_precision = 
+    macro_precision = 
+    micro_recall = 
+    macro_recall = 
+    micro_f1 = 
+    macro_f1 = 
     
 def calculate_sklearn_metrics(model_pred_df, genre_list):
     '''
