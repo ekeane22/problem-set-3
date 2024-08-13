@@ -7,8 +7,17 @@ PART 2: METRICS CALCULATION
 '''
 
 import numpy as np
+import pandas as pd
+import logging
 from sklearn.metrics import precision_recall_fscore_support
 import pandas as pd
+
+logging.basicConfig(
+    filename='transform.log',
+    filemode='w',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def calculate_metrics(model_pred_df, genre_list, genre_true_counts, genre_tp_counts, genre_fp_counts):
     '''
@@ -37,6 +46,34 @@ def calculate_metrics(model_pred_df, genre_list, genre_true_counts, genre_tp_cou
     Hint #2: Micro metrics are tuples, macro metrics are lists
 
     '''
+    try: 
+        macro_precision_list = []
+        macro_recall_list = []
+        macro_f1_list = []
+    
+        for genre in genre_list: 
+            tp = genre_tp_counts.get(genre, 0)
+            fp = genre_fp_counts.get(genre,0)
+            fn = genre_true_counts.get(genre, 0) - tp 
+    
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0 
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0 
+            f1 = 2 * (precision * recall) / (precision + recall)
+            
+            macro_precision_list.append(precision)
+            macro_recall_list.append(recall)
+            macro_f1_list.append(f1)
+        
+        #micro metrics 
+        true_total = sum(genre_true_counts.values())
+        tp_total = sum(genre_tp_counts.values())
+        fp_total = sum(genre_fp_counts.values())
+        fn_total = true_total = tp_total 
+        
+        
+
+
+
 
 
     true = [genre_true_counts[genre] for genre in genre_list]
